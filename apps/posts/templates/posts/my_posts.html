@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load i18n %}
+{% load static %}
+
+{% block nav_my_posts %}active{% endblock %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="card shadow mb-12">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{ post.author }}
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h5 class="card-title">
+                            {{ post.content }}
+                        </h5>
+                        <p class="card-text">{{ post.modified|naturaltime }}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans 'Options' %}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'posts:post-update' post.id %}">{% trans 'Edit' %}</a>
+                                <a class="dropdown-item" href="">
+                                    {% if post.is_published %}
+                                        {% trans 'Unpublish' %}
+                                    {% else %}
+                                        {% trans 'Publish' %}
+                                    {% endif %}
+                                </a>
+                                <a class="dropdown-item" href="">
+                                    {% if post.is_public %}
+                                        {% trans 'Make Private' %}
+                                    {% else %}
+                                        {% trans 'Make Public' %}
+                                    {% endif %}
+                                </a>
+                                <a class="dropdown-item" href="">{% trans 'Delete' %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+    {% endfor %}
+{% endblock %}

@@ -58,3 +58,18 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         Returns posts made by the logged in user.
         """
         return Post.objects.filter(author=self.request.user)
+
+
+class PostUserList(LoginRequiredMixin, ListView):
+    """
+    Displays all posts by the logged in user.
+    """
+
+    template_name = "posts/my_posts.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        """
+        Returns posts made by the logged in user.
+        """
+        return Post.objects.filter(author=self.request.user)
