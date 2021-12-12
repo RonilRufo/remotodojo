@@ -22,7 +22,8 @@ from apps.core.views import Index
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("posts/", include("apps.posts.urls"), name="posts"),
+    path("accounts/", include("apps.accounts.urls")),
+    path("posts/", include("apps.posts.urls")),
     path("", Index.as_view(), name="index"),
 ]
 
