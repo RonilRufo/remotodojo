@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% load i18n %}
 {% load static %}
 
 <head>
@@ -67,6 +68,10 @@
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-user btn-block" value="Login" />
                                     </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="{% url 'accounts:register' %}">{% trans 'Create an Account!' %}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
