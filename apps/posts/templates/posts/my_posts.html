@@ -29,20 +29,23 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{% url 'posts:post-update' post.id %}">{% trans 'Edit' %}</a>
-                                <a class="dropdown-item" href="">
-                                    {% if post.is_published %}
-                                        {% trans 'Unpublish' %}
-                                    {% else %}
-                                        {% trans 'Publish' %}
-                                    {% endif %}
-                                </a>
-                                <a class="dropdown-item" href="">
-                                    {% if post.is_public %}
-                                        {% trans 'Make Private' %}
-                                    {% else %}
-                                        {% trans 'Make Public' %}
-                                    {% endif %}
-                                </a>
+                                <form method="POST" action="{% url 'posts:post-toggle' post.id %}">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item" type="submit" name="toggle_publish">
+                                        {% if post.is_published %}
+                                            {% trans 'Unpublish' %}
+                                        {% else %}
+                                            {% trans 'Publish' %}
+                                        {% endif %}
+                                    </button>
+                                    <button class="dropdown-item" type="submit" name="toggle_public">
+                                        {% if post.is_public %}
+                                            {% trans 'Make Private' %}
+                                        {% else %}
+                                            {% trans 'Make Public' %}
+                                        {% endif %}
+                                    </button>
+                                </form>
                                 <a class="dropdown-item" href="{% url 'posts:post-delete' post.id %}">{% trans 'Delete' %}</a>
                             </div>
                         </div>

@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, View
+from django.views.generic.detail import SingleObjectMixin
 
 from .forms import PostForm
 from .models import Post
@@ -58,6 +59,37 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         Returns posts made by the logged in user.
         """
         return Post.objects.filter(author=self.request.user)
+
+
+class PostToggle(LoginRequiredMixin, SingleObjectMixin, View):
+    """
+    Toggles the `is_published` or `is_public` values depending on the sent form. Only
+    accepts POST requests.
+    """
+
+    def get_success_url(self) -> str:
+        """
+        Redirects the request to the user's posts page upon success.
+        """
+        return reverse_lazy("posts:my-posts")
+
+    def get_queryset(self):
+        """
+        Returns posts made by the logged in user.
+        """
+        return Post.objects.filter(author=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handles the toggling of publish and public fields on POST request.
+        """
+        post: Post = self.get_object()
+        if "toggle_publish" in request.POST:
+            post.toggle_publish()
+        elif "toggle_public" in request.POST:
+            post.toggle_public()
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class PostUserList(LoginRequiredMixin, ListView):

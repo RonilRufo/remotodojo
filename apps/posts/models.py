@@ -44,6 +44,20 @@ class Post(TimeStampedModel, UUIDModel):
             self.is_published = True
             self.save(update_fields=["is_published"])
 
+    def toggle_publish(self) -> None:
+        """
+        Toggles the value of `is_published` field from True to False or vice versa.
+        """
+        self.is_published = not self.is_published
+        self.save(update_fields=["is_published"])
+
+    def toggle_public(self) -> None:
+        """
+        Toggles the value of `is_public` field from True to False or vice versa.
+        """
+        self.is_public = not self.is_public
+        self.save(update_fields=["is_public"])
+
     def make_private(self) -> None:
         """
         Sets the post to private. Only the user can see it.
