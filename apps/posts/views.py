@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 
 from .forms import PostForm
 from .models import Post
@@ -41,3 +41,20 @@ class PostCreate(LoginRequiredMixin, CreateView):
         post.author = self.request.user
         self.object = post.save()
         return HttpResponseRedirect(self.get_success_url())
+
+
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    """
+    Allows the author to update his/her own post.
+    """
+
+    form_class = PostForm
+    template_name = "posts/update.html"
+    context_object_name = "post"
+    success_url = reverse_lazy("posts:post-list")
+
+    def get_queryset(self):
+        """
+        Returns posts made by the logged in user.
+        """
+        return Post.objects.filter(author=self.request.user)

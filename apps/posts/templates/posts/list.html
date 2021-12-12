@@ -12,7 +12,12 @@
                 <h6 class="m-0 font-weight-bold text-primary">{{ post.author }}</h6>
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{ post.content }}</h5>
+                <h5 class="card-title">
+                    {{ post.content }}
+                    {% if request.user == post.author %}
+                        <a href="{% url 'posts:post-update' post.id %}"><small>edit</small></a>
+                    {% endif %}
+                </h5>
                 <p class="card-text">{{ post.modified|naturaltime }}</p>
             </div>
         </div>
