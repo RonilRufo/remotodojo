@@ -34,7 +34,7 @@ class Post(TimeStampedModel, UUIDModel):
         ordering = ("-created",)
 
     def __str__(self) -> str:
-        return f"{self.email}: {self.content[:50]}"
+        return f"{self.author}: {self.content[:50]}"
 
     def publish(self) -> None:
         """
