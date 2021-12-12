@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block nav_create_post %}active{% endblock %}
+
+{% block content %}
+    <div class="col-md-6">
+        <div class="card shadow mb-12">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{% trans 'Create Post' %}</h6>
+            </div>
+            <div class="card-body">
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.content }}
+                    </div>
+                    <div class="form-check">
+                        {{ form.is_published }}
+                        <label class="form-check-label" for="{{ form.is_published.auto_id }}">
+                            {{ form.is_published.label }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        {{ form.is_public }}
+                        <label class="form-check-label" for="{{ form.is_public.auto_id }}">
+                            {{ form.is_public.label }}
+                        </label>
+                    </div>
+                    <hr />
+                    <button type="submit" class="btn btn-primary btn-block">
+                        {% trans 'Create' %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
