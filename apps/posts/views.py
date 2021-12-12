@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -86,8 +87,12 @@ class PostToggle(LoginRequiredMixin, SingleObjectMixin, View):
         post: Post = self.get_object()
         if "toggle_publish" in request.POST:
             post.toggle_publish()
+            action = "published" if post.is_published else "unpublished"
+            messages.success(request, f'Successfully {action} the post: "{post.id}"')
         elif "toggle_public" in request.POST:
             post.toggle_public()
+            action = "public" if post.is_public else "private"
+            messages.success(request, f'Set the post "{post.id}" to {action}.')
 
         return HttpResponseRedirect(self.get_success_url())
 
