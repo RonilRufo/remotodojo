@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from .forms import PostForm
 from .models import Post
@@ -67,6 +67,21 @@ class PostUserList(LoginRequiredMixin, ListView):
 
     template_name = "posts/my_posts.html"
     context_object_name = "posts"
+
+    def get_queryset(self):
+        """
+        Returns posts made by the logged in user.
+        """
+        return Post.objects.filter(author=self.request.user)
+
+
+class PostDelete(LoginRequiredMixin, DeleteView):
+    """
+    Allows the author to delete his/her own post.
+    """
+
+    context_object_name = "post"
+    success_url = reverse_lazy("posts:post-list")
 
     def get_queryset(self):
         """

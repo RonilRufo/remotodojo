@@ -43,7 +43,7 @@
                                         {% trans 'Make Public' %}
                                     {% endif %}
                                 </a>
-                                <a class="dropdown-item" href="">{% trans 'Delete' %}</a>
+                                <a class="dropdown-item" href="{% url 'posts:post-delete' post.id %}">{% trans 'Delete' %}</a>
                             </div>
                         </div>
                     </div>

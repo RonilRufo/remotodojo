@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load i18n %}
+{% load static %}
+
+{% block nav_my_posts %}active{% endblock %}
+
+{% block content %}
+    <div class="alert alert-danger">
+        <form method="post">{% csrf_token %}
+            <p>{% trans 'Are you sure you want to delete this post?' %}</p>
+            {{ form }}
+            <input type="submit" class="btn btn-danger" value="{% trans 'Confirm' %}">
+        </form>
+    </div>
+    <div class="card shadow mb-12">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                {{ post.author }}
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="card-title">
+                        {{ post.content }}
+                    </h5>
+                    <p class="card-text">{{ post.modified|naturaltime }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
