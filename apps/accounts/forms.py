@@ -1,4 +1,8 @@
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    UserChangeForm,
+    UserCreationForm,
+)
 
 from .models import CustomUser
 
@@ -13,3 +17,19 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ("email",)
+
+
+class LoginForm(AuthenticationForm):
+    """
+    custom authentication form.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs["class"] = "form-control form-control-user"
+
+        self.fields["username"].widget.attrs["placeholder"] = "Enter Email Address..."
+        self.fields["username"].widget.attrs["aria-describedby"] = "emailHelp"
+        self.fields["password"].widget.attrs["placeholder"] = "Password"
