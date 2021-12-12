@@ -32,6 +32,9 @@ class Registration(FormView):
     success_url = reverse_lazy("posts:post-list")
 
     def form_valid(self, form):
+        """
+        Logs the user in when form is valid then redirect to the post page.
+        """
         user = form.save()
         login(self.request, user)
         return HttpResponseRedirect(self.get_success_url())
