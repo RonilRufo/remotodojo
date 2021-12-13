@@ -73,3 +73,10 @@ class Post(TimeStampedModel, UUIDModel):
         if not self.is_public:
             self.is_public = True
             self.save(update_fields=["is_public"])
+
+    @property
+    def is_visible_in_homepage(self) -> bool:
+        """
+        Posts are visible in homepage if they are both published and public.
+        """
+        return self.is_published and self.is_public
