@@ -62,6 +62,15 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         """
         return Post.objects.filter(author=self.request.user)
 
+    def form_valid(self, form):
+        """
+        Override `form_valid` method so we can insert success messages.
+        """
+        self.object = form.save()
+
+        messages.success(self.request, _("Successfully updated post."))
+        return super().form_valid(form)
+
 
 class PostToggle(LoginRequiredMixin, SingleObjectMixin, View):
     """
