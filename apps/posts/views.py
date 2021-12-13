@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView, View
 from django.views.generic.detail import SingleObjectMixin
 
@@ -125,3 +126,14 @@ class PostDelete(LoginRequiredMixin, DeleteView):
         Returns posts made by the logged in user.
         """
         return Post.objects.filter(author=self.request.user)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Override the delete method so we can insert success messages.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+
+        messages.success(request, _("Post successfully deleted."))
+        return HttpResponseRedirect(success_url)
