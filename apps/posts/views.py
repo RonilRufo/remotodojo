@@ -32,9 +32,12 @@ class PostCreate(LoginRequiredMixin, CreateView):
 
     def get_success_url(self) -> str:
         """
-        Overrides the success URL so it redirects to homepage.
+        Overrides the success URL so it redirects to homepage or my posts page.
         """
-        return reverse_lazy("posts:post-list")
+        if self.object.is_visible_in_homepage:
+            return reverse_lazy("posts:post-list")
+        else:
+            return reverse_lazy("posts:my-posts")
 
     def form_valid(self, form):
         """
@@ -42,7 +45,10 @@ class PostCreate(LoginRequiredMixin, CreateView):
         """
         post = form.save(commit=False)
         post.author = self.request.user
-        self.object = post.save()
+        post.save()
+        self.object = post
+
+        messages.success(self.request, _("Successfully created a post."))
         return HttpResponseRedirect(self.get_success_url())
 
 
