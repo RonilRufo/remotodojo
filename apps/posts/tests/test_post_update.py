@@ -185,3 +185,35 @@ class PostUpdateTests(PostsMixin, TestCase):
         # Check that changes did not apply
         for key in payload.keys():
             self.assertNotEqual(getattr(post, key), payload[key])
+
+    def test_update_post_get_request_not_owner(self):
+        """
+        Test not found response when trying to update a post that does not belong to the
+        user in GET request.
+        """
+        user = self.create_user()
+        post = self.create_post(
+            author=user,
+            is_published=True,
+            is_public=True,
+        )
+        url = reverse("posts:post-update", args=(post.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_post_request_not_owner(self):
+        """
+        Test not found response when trying to update a post that does not belong to the
+        user in POST request.
+        """
+        user = self.create_user()
+        post = self.create_post(author=user, is_published=True, is_public=True)
+
+        payload = {
+            "content": self.fake.sentence(),
+            "is_published": True,
+            "is_public": True,
+        }
+        url = reverse("posts:post-update", args=(post.id,))
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 404)
