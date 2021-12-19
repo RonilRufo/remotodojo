@@ -148,6 +148,7 @@ class PostDelete(LoginRequiredMixin, DeleteView):
 
     context_object_name = "post"
     success_url = reverse_lazy("posts:post-list")
+    success_message = _("Post successfully deleted.")
 
     def get_queryset(self):
         """
@@ -163,5 +164,5 @@ class PostDelete(LoginRequiredMixin, DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
 
-        messages.success(request, _("Post successfully deleted."))
+        messages.success(request, self.success_message)
         return HttpResponseRedirect(success_url)
