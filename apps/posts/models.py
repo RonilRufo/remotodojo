@@ -50,22 +50,6 @@ class Post(TimeStampedModel, UUIDModel):
         self.is_public = not self.is_public
         self.save(update_fields=["is_public"])
 
-    def make_private(self) -> None:
-        """
-        Sets the post to private. Only the user can see it.
-        """
-        if self.is_public:
-            self.is_public = False
-            self.save(update_fields=["is_public"])
-
-    def make_public(self) -> None:
-        """
-        Sets the post to public. The post can be viewed by everyone.
-        """
-        if not self.is_public:
-            self.is_public = True
-            self.save(update_fields=["is_public"])
-
     @property
     def is_visible_in_homepage(self) -> bool:
         """
