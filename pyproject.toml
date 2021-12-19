@@ -39,6 +39,7 @@ bandit = "^1.7.0"
 coverage = "^6.2"
 factory-boy = "^3.2.1"
 pytest-django = "^4.5.1"
+Faker = "^10.0.0"
 
 [tool.poetry.extras]
 prod = ["gunicorn"]
