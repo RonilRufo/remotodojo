@@ -61,6 +61,7 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
     template_name = "posts/update.html"
     context_object_name = "post"
     success_url = reverse_lazy("posts:post-list")
+    success_message = _("Successfully updated post.")
 
     def get_queryset(self):
         """
@@ -74,7 +75,7 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         """
         self.object = form.save()
 
-        messages.success(self.request, _("Successfully updated post."))
+        messages.success(self.request, self.success_message)
         return super().form_valid(form)
 
 
