@@ -3,6 +3,7 @@ import random
 from django.test import TestCase
 from django.urls import reverse
 
+from ..models import Post
 from .mixins import PostsMixin
 
 
@@ -39,7 +40,17 @@ class PostListTests(PostsMixin, TestCase):
         posts = response.context.get("posts")
         self.assertTrue(posts.exists())
         self.assertEqual(posts.count(), len(visible_posts))
+
+        prev_post: Post = None
         for post in posts:
             self.assertIn(post, visible_posts)
             self.assertNotIn(post, unpublished_posts)
             self.assertNotIn(post, private_posts)
+
+            if prev_post is None:
+                prev_post = post
+                continue
+
+            # Test content changed ordering
+            self.assertGreater(prev_post.content_changed, post.content_changed)
+            prev_post = post
