@@ -83,9 +83,6 @@ class PostCreateTests(PostsMixin, TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, login_redirect)
 
-        # Check that no post has been created
-        self.assertFalse(Post.objects.exists())
-
     def test_create_post_post_request_unauthenticated_user(self):
         """
         Test redirect to login page if user is anonymous on POST requests.
