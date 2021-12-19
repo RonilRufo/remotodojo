@@ -33,7 +33,7 @@ class Post(TimeStampedModel, UUIDModel):
     class Meta:
         verbose_name = _("Post")
         verbose_name_plural = _("Posts")
-        ordering = ("-modified",)
+        ordering = ("-content_changed",)
 
     def __str__(self) -> str:
         return f"{self.author}: {self.content[:50]}"
