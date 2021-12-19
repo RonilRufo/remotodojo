@@ -58,3 +58,12 @@ class Post(TimeStampedModel, UUIDModel):
         Posts are visible in homepage if they are both published and public.
         """
         return self.is_published and self.is_public
+
+    @property
+    def was_edited(self) -> bool:
+        """
+        Returns whether the content of the post has been changed or not based on the
+        `content_changed` monitor field.
+        """
+        diff = self.content_changed - self.created
+        return diff.seconds > 1
