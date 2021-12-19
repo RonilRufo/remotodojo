@@ -32,8 +32,15 @@ Project Setup
 ---
 
 **Docker setup:**
+
+Running the server:
 ```
 docker-compose up --build
+```
+
+Create a Super User:
+```
+docker-compose exec backend ./manage.py createsuperuser
 ```
 
 Site will be available at **http://localhost:8000**
