@@ -31,9 +31,12 @@
                         </label>
                     </div>
                     <hr />
-                    <button type="submit" class="btn btn-primary btn-block">
+                    <button type="submit" class="btn btn-primary">
                         {% trans 'Create' %}
                     </button>
+                    <a href="{% url 'posts:post-list' %}" class="btn btn-warning">
+                        {% trans 'Cancel' %}
+                    </a>
                 </form>
             </div>
         </div>
