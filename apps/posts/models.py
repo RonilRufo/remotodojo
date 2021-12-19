@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from model_utils.fields import MonitorField
 from model_utils.models import TimeStampedModel, UUIDModel
 
 
@@ -11,6 +12,7 @@ class Post(TimeStampedModel, UUIDModel):
     """
 
     content = models.CharField(max_length=255)
+    content_changed = MonitorField(monitor="content")
     author = models.ForeignKey(
         "accounts.CustomUser",
         related_name="posts",
@@ -31,7 +33,7 @@ class Post(TimeStampedModel, UUIDModel):
     class Meta:
         verbose_name = _("Post")
         verbose_name_plural = _("Posts")
-        ordering = ("-created",)
+        ordering = ("-modified",)
 
     def __str__(self) -> str:
         return f"{self.author}: {self.content[:50]}"
