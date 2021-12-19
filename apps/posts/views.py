@@ -29,6 +29,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = "posts/create.html"
+    success_message = _("Successfully created a post.")
 
     def get_success_url(self) -> str:
         """
@@ -48,7 +49,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
         post.save()
         self.object = post
 
-        messages.success(self.request, _("Successfully created a post."))
+        messages.success(self.request, self.success_message)
         return HttpResponseRedirect(self.get_success_url())
 
 

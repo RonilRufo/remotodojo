@@ -1,10 +1,12 @@
 import urllib
 
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import reverse
 
 from ..forms import PostForm
 from ..models import Post
+from ..views import PostCreate
 from .mixins import PostsMixin
 
 
@@ -41,6 +43,10 @@ class PostCreateTests(PostsMixin, TestCase):
         self.assertTrue(self.user.posts.exists())
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("posts:post-list"))
+
+        # Test message after successfully creating a post
+        messages = [msg.message for msg in get_messages(response.wsgi_request)]
+        self.assertIn(PostCreate.success_message, messages)
 
     def test_create_post_unpublished_redirect(self):
         """
