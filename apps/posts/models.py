@@ -36,14 +36,6 @@ class Post(TimeStampedModel, UUIDModel):
     def __str__(self) -> str:
         return f"{self.author}: {self.content[:50]}"
 
-    def publish(self) -> None:
-        """
-        Publishes the post. Sets the `is_published` field to True.
-        """
-        if not self.is_published:
-            self.is_published = True
-            self.save(update_fields=["is_published"])
-
     def toggle_publish(self) -> None:
         """
         Toggles the value of `is_published` field from True to False or vice versa.
