@@ -39,6 +39,7 @@ class RegistrationTests(AccountsMixin, TestCase):
         self.assertRedirects(response, reverse("posts:post-list"))
 
         self.assertIsNotNone(CustomUser.objects.get(email=payload["email"]))
+        self.assertEqual(response.wsgi_request.user.email, payload["email"])
 
     def test_register_email_already_taken(self):
         """

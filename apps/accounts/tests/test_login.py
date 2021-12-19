@@ -34,6 +34,7 @@ class LoginTests(AccountsMixin, TestCase):
         response = self.client.post(self.login_url, payload)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("posts:post-list"))
+        self.assertEqual(response.wsgi_request.user, user)
 
     def test_login_email_does_not_exist(self):
         """
