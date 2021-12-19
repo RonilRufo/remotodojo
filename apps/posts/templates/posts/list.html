@@ -33,6 +33,7 @@
                                     <a class="dropdown-item" href="{% url 'posts:post-update' post.id %}">{% trans 'Edit' %}</a>
                                     <form method="POST" action="{% url 'posts:post-toggle' post.id %}">
                                         {% csrf_token %}
+                                        <input type="hidden" name="from_homepage" />
                                         <button class="dropdown-item" type="submit" name="toggle_publish">
                                             {% if post.is_published %}
                                                 {% trans 'Unpublish' %}

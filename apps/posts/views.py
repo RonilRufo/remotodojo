@@ -86,9 +86,15 @@ class PostToggle(LoginRequiredMixin, SingleObjectMixin, View):
     accepts POST requests.
     """
 
-    def get_success_url(self) -> str:
+    def get_homepage_url(self) -> str:
         """
-        Redirects the request to the user's posts page upon success.
+        Returns the home page URL.
+        """
+        return reverse_lazy("posts:post-list")
+
+    def get_my_posts_url(self) -> str:
+        """
+        Returns the my posts URL.
         """
         return reverse_lazy("posts:my-posts")
 
@@ -112,7 +118,12 @@ class PostToggle(LoginRequiredMixin, SingleObjectMixin, View):
             action = "public" if post.is_public else "private"
             messages.success(request, f'Set the post "{post.id}" to {action}.')
 
-        return HttpResponseRedirect(self.get_success_url())
+        if "from_homepage" in request.POST:
+            success_url = self.get_homepage_url()
+        else:
+            success_url = self.get_my_posts_url()
+
+        return HttpResponseRedirect(success_url)
 
 
 class PostUserList(LoginRequiredMixin, ListView):
